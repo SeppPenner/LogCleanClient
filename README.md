@@ -4,7 +4,7 @@ LogCleanClient
 LogCleanClient is an executable to clean log files (or any files depending on configuration).
 The executable was written and tested in .Net 4.6.2.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/qx50j5ng4t2ngyt3?svg=true)](https://ci.appveyor.com/project/SeppPenner/bmirechner)
+[![Build status](https://ci.appveyor.com/api/projects/status/ebj1jxkl6a677uqx?svg=true)](https://ci.appveyor.com/project/SeppPenner/logcleanclient)
 
 
 ## How does the configuration need to look like:
@@ -26,10 +26,10 @@ The executable was written and tested in .Net 4.6.2.
 
 
 ## Screenshot from the executable german:
-![Screenshot from the executable german](https://github.com/SeppPenner/BMIRechner/blob/master/Screenshot_DE.PNG "Screenshot from the executable german")
+![Screenshot from the executable german](https://github.com/SeppPenner/LogCleanClient/blob/master/Screenshot_DE.PNG "Screenshot from the executable german")
 
 ## Screenshot from the executable english:
-![Screenshot from the executable english](https://github.com/SeppPenner/BMIRechner/blob/master/Screenshot_EN.PNG "Screenshot from the executable english")
+![Screenshot from the executable english](https://github.com/SeppPenner/LogCleanClient/blob/master/Screenshot_EN.PNG "Screenshot from the executable english")
 
 Change history
 --------------
