@@ -47,7 +47,7 @@ Source: "C:\Users\tim\Desktop\LogCleanClient\LogCleanClient\bin\Debug\Config.xml
 Source: "C:\Users\tim\Desktop\LogCleanClient\LogCleanClient\bin\Debug\Languages.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\tim\Desktop\LogCleanClient\LogCleanClient\bin\Debug\License.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\tim\Desktop\LogCleanClient\LogCleanClient\bin\Debug\Readme.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\tim\Desktop\LogCleanClient\LogCleanClient\bin\Debug\languages\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\tim\Desktop\LogCleanClient\LogCleanClient\bin\Debug\languages\*"; DestDir: "{app}\languages\"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
