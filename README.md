@@ -34,6 +34,7 @@ The executable was written and tested in .Net 4.6.2.
 Change history
 --------------
 
+* **Version 1.0.0.3 (2017-03-15)** : Bugfix for config import.
 * **Version 1.0.0.2 (2017-03-15)** : Switched to .Net to 4.6.2. Added multilanguage support.
 * **Version 1.0.0.1 (2017-03-15)** : Refactored code.
 * **Version 1.0.0.0 (2017-03-15)** : 1.0 release.

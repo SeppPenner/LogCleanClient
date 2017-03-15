@@ -38,7 +38,7 @@ namespace LogCleanClient
             {
                 var location = Assembly.GetExecutingAssembly().Location;
                 if (location != null)
-                    _config = ImportConfiguration(Directory.GetParent(location) + "\\Config.xml");
+                    _config = ImportConfiguration(Path.Combine(Directory.GetParent(location).FullName, "Config.xml"));
                 InitBackgroundWorker();
             }
             catch (Exception ex)
