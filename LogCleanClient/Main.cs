@@ -166,17 +166,7 @@ namespace LogCleanClient
 
         private void comboBoxLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (comboBoxLanguage.SelectedItem.ToString())
-            {
-                case "Deutsch":
-                    _lm.SetCurrentLanguage("de-DE");
-                    _lang = _lm.GetCurrentLanguage();
-                    break;
-                case "English (US)":
-                    _lm.SetCurrentLanguage("en-US");
-                    _lang = _lm.GetCurrentLanguage();
-                    break;
-            }
+            _lm.SetCurrentLanguageFromName(comboBoxLanguage.SelectedItem.ToString());
         }
 
         private void InitializeCaption()
