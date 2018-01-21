@@ -2,7 +2,7 @@ LogCleanClient
 ====================================
 
 LogCleanClient is an executable to clean log files (or any files depending on configuration).
-The executable was written and tested in .Net 4.6.2.
+The executable was written and tested in .Net 4.7.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/ebj1jxkl6a677uqx?svg=true)](https://ci.appveyor.com/project/SeppPenner/logcleanclient)
 
