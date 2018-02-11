@@ -42,7 +42,7 @@
             this.button_ClearLogs.TabIndex = 0;
             this.button_ClearLogs.Text = "Logs löschen";
             this.button_ClearLogs.UseVisualStyleBackColor = true;
-            this.button_ClearLogs.Click += new System.EventHandler(this.button_ClearLogs_Click);
+            this.button_ClearLogs.Click += new System.EventHandler(this.Button_ClearLogs_Click);
             // 
             // progressBar_CleanProgress
             // 
@@ -59,7 +59,7 @@
             this.comboBoxLanguage.Name = "comboBoxLanguage";
             this.comboBoxLanguage.Size = new System.Drawing.Size(272, 21);
             this.comboBoxLanguage.TabIndex = 2;
-            this.comboBoxLanguage.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguage_SelectedIndexChanged);
+            this.comboBoxLanguage.SelectedIndexChanged += new System.EventHandler(this.ComboBoxLanguage_SelectedIndexChanged);
             // 
             // Main
             // 

@@ -21,7 +21,7 @@ namespace LogCleanClient
 
         private Config _config = new Config();
         private List<string> _filesDeleted = new List<string>();
-        private Language _lang;
+        private ILanguage _lang;
 
         public Main()
         {
@@ -37,8 +37,7 @@ namespace LogCleanClient
             try
             {
                 var location = Assembly.GetExecutingAssembly().Location;
-                if (location != null)
-                    _config = ImportConfiguration(Path.Combine(Directory.GetParent(location).FullName, "Config.xml"));
+                _config = ImportConfiguration(Path.Combine(Directory.GetParent(location).FullName, "Config.xml"));
                 InitBackgroundWorker();
             }
             catch (Exception ex)
@@ -49,7 +48,7 @@ namespace LogCleanClient
         }
 
 
-        private void button_ClearLogs_Click(object sender, EventArgs e)
+        private void Button_ClearLogs_Click(object sender, EventArgs e)
         {
             button_ClearLogs.Enabled = false;
             _filesDeleted = new List<string>();
@@ -155,6 +154,7 @@ namespace LogCleanClient
         {
             _lm.SetCurrentLanguage("de-DE");
             _lm.OnLanguageChanged += OnLanguageChanged;
+            _lang = _lm.GetCurrentLanguage();
         }
 
         private void LoadLanguagesToCombo()
@@ -164,7 +164,7 @@ namespace LogCleanClient
             comboBoxLanguage.SelectedIndex = 0;
         }
 
-        private void comboBoxLanguage_SelectedIndexChanged(object sender, EventArgs e)
+        private void ComboBoxLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
             _lm.SetCurrentLanguageFromName(comboBoxLanguage.SelectedItem.ToString());
         }
@@ -177,6 +177,7 @@ namespace LogCleanClient
         private void OnLanguageChanged(object sender, EventArgs eventArgs)
         {
             button_ClearLogs.Text = _lm.GetCurrentLanguage().GetWord("ClearLogs");
+            _lang = _lm.GetCurrentLanguage();
         }
     }
 }
