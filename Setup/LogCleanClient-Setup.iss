@@ -2,11 +2,11 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "LogCleanClient"
-#define MyAppVersion "1.0.0.5"
+#define MyAppVersion "1.0.0.6"
 #define MyAppPublisher "Hämmer Electronics"
 #define MyAppURL "www.softwareload24.de.tl"
 #define MyAppExeName "LogCleanClient.exe"
-#define MyPath "F:\TODO\C# und VB\LogCleanClient"
+#define MyPath "C:\Users\tim\Desktop\Updaten_Snyk\LogCleanClient"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
