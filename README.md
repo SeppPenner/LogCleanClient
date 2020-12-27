@@ -2,7 +2,7 @@ LogCleanClient
 ====================================
 
 LogCleanClient is an executable to clean log files (or any files depending on configuration).
-The executable was written and tested in .Net 4.8.
+The executable was written and tested in .Net 5.0.
 
 [![Build status](https://ci.appveyor.com/api/projects/status/ebj1jxkl6a677uqx?svg=true)](https://ci.appveyor.com/project/SeppPenner/logcleanclient)
 [![GitHub issues](https://img.shields.io/github/issues/SeppPenner/LogCleanClient.svg)](https://github.com/SeppPenner/LogCleanClient/issues)
@@ -39,11 +39,4 @@ The executable was written and tested in .Net 4.8.
 Change history
 --------------
 
-* **Version 1.0.1.0 (2019-10-27)** : Updated nuget packages, added GitVersionTask.
-* **Version 1.0.0.6 (2019-05-07)** : Updated .Net version to 4.8.
-* **Version 1.0.0.5 (2017-03-24)** : Updated Languages.dll to version 1.0.0.4.
-* **Version 1.0.0.4 (2017-03-21)** : Updated Languages.dll.
-* **Version 1.0.0.3 (2017-03-15)** : Bugfix for config import.
-* **Version 1.0.0.2 (2017-03-15)** : Switched to .Net to 4.6.2. Added multilanguage support.
-* **Version 1.0.0.1 (2017-03-15)** : Refactored code.
-* **Version 1.0.0.0 (2017-03-15)** : 1.0 release.
+See the [Changelog](https://github.com/SeppPenner/LogCleanClient/blob/master/Changelog.md).
