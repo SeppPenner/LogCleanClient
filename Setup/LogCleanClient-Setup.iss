@@ -42,6 +42,7 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Files]
 Source: "..\src\LogCleanClient\bin\Release\net5.0-windows\LogCleanClient.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\src\LogCleanClient\bin\Release\net5.0-windows\LogCleanClient.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\src\LogCleanClient\bin\Release\net5.0-windows\Config.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\src\LogCleanClient\bin\Release\net5.0-windows\Languages.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\src\LogCleanClient\bin\Release\net5.0-windows\License.txt"; DestDir: "{app}"; Flags: ignoreversion
