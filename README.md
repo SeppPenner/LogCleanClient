@@ -12,7 +12,7 @@ The executable was written and tested in .Net 5.0.
 [![Known Vulnerabilities](https://snyk.io/test/github/SeppPenner/LogCleanClient/badge.svg)](https://snyk.io/test/github/SeppPenner/LogCleanClient)
 
 
-## How does the configuration need to look like:
+## How does the configuration need to look like
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -30,11 +30,11 @@ The executable was written and tested in .Net 5.0.
 ```
 
 
-## Screenshot from the executable german:
-![Screenshot from the executable german](https://github.com/SeppPenner/LogCleanClient/blob/master/Screenshot_DE.PNG "Screenshot from the executable german")
+## Screenshot from the executable German
+![Screenshot from the executable German](https://github.com/SeppPenner/LogCleanClient/blob/master/Screenshot_DE.PNG "Screenshot from the executable German")
 
-## Screenshot from the executable english:
-![Screenshot from the executable english](https://github.com/SeppPenner/LogCleanClient/blob/master/Screenshot_EN.PNG "Screenshot from the executable english")
+## Screenshot from the executable English
+![Screenshot from the executable English](https://github.com/SeppPenner/LogCleanClient/blob/master/Screenshot_EN.PNG "Screenshot from the executable English")
 
 Change history
 --------------
