@@ -21,6 +21,6 @@ namespace LogCleanClient
         /// <summary>
         /// Gets or sets the log models.
         /// </summary>
-        public List<LogModel> LogModels { get; set; }
+        public List<LogModel> LogModels { get; set; } = new();
     }
 }

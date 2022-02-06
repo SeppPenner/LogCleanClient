@@ -17,12 +17,12 @@ namespace LogCleanClient
         /// <summary>
         /// Gets or sets the file filter.
         /// </summary>
-        public string FileFilter { get; set; }
+        public string FileFilter { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets log folder.
         /// </summary>
-        public string LogFolder { get; set; }
+        public string LogFolder { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the file amount.

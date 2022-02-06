@@ -30,7 +30,7 @@ namespace LogCleanClient
         /// <summary>
         /// The background clean process.
         /// </summary>
-        private readonly BackgroundWorker backgroundClean = new BackgroundWorker();
+        private readonly BackgroundWorker backgroundClean = new();
 
         /// <summary>
         /// The language manager.
@@ -40,17 +40,17 @@ namespace LogCleanClient
         /// <summary>
         /// The configuration.
         /// </summary>
-        private Config config = new Config();
+        private Config config = new();
 
         /// <summary>
         /// The list of deleted files.
         /// </summary>
-        private List<string> filesDeleted = new List<string>();
+        private List<string> filesDeleted = new();
 
         /// <summary>
         /// The language.
         /// </summary>
-        private ILanguage language;
+        private ILanguage? language;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Main"/> class.
@@ -72,7 +72,7 @@ namespace LogCleanClient
         private static Config ImportConfiguration(string fileName)
         {
             var xDocument = XDocument.Load(fileName);
-            return CreateObjectFromString<Config>(xDocument);
+            return CreateObjectFromString<Config>(xDocument) ?? new();
         }
 
         /// <summary>
@@ -81,10 +81,10 @@ namespace LogCleanClient
         /// <typeparam name="T">The type parameter.</typeparam>
         /// <param name="xDocument">The X document.</param>
         /// <returns>A new object of type <see cref="T"/>.</returns>
-        private static T CreateObjectFromString<T>(XDocument xDocument)
+        private static T? CreateObjectFromString<T>(XDocument xDocument)
         {
             var xmlSerializer = new XmlSerializer(typeof(T));
-            return (T)xmlSerializer.Deserialize(new StringReader(xDocument.ToString()));
+            return (T?)xmlSerializer.Deserialize(new StringReader(xDocument.ToString()));
         }
 
         /// <summary>
@@ -100,6 +100,12 @@ namespace LogCleanClient
             }
             catch (Exception ex)
             {
+                if (this.language is null)
+                {
+                    MessageBox.Show(ex.Message, ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                
                 var error = this.language.GetWord("Error");
                 MessageBox.Show(ex.Message, error, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -199,6 +205,11 @@ namespace LogCleanClient
         /// <param name="e">The event args.</param>
         private void BackgroundCleanCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            if (this.language is null)
+            {
+                return;
+            }
+
             this.button_ClearLogs.Enabled = true;
             var reportDialog = new ReportDialog();
             var searchedDirectories = this.language.GetWord("SearchedDirectories");
