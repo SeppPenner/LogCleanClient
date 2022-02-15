@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="LogModel.cs" company="Hämmer Electronics">
 //   Copyright (c) All rights reserved.
 // </copyright>
@@ -7,26 +7,25 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LogCleanClient
+namespace LogCleanClient;
+
+/// <summary>
+/// The log model.
+/// </summary>
+public class LogModel
 {
     /// <summary>
-    /// The log model.
+    /// Gets or sets the file filter.
     /// </summary>
-    public class LogModel
-    {
-        /// <summary>
-        /// Gets or sets the file filter.
-        /// </summary>
-        public string FileFilter { get; set; } = string.Empty;
+    public string FileFilter { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Gets or sets log folder.
-        /// </summary>
-        public string LogFolder { get; set; } = string.Empty;
+    /// <summary>
+    /// Gets or sets log folder.
+    /// </summary>
+    public string LogFolder { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Gets or sets the file amount.
-        /// </summary>
-        public int FileAmount { get; set; }
-    }
+    /// <summary>
+    /// Gets or sets the file amount.
+    /// </summary>
+    public int FileAmount { get; set; }
 }

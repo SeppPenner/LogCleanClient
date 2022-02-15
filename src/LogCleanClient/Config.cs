@@ -1,4 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------
 // <copyright file="Config.cs" company="Hämmer Electronics">
 //   Copyright (c) All rights reserved.
 // </copyright>
@@ -7,20 +7,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LogCleanClient
-{
-    using System;
-    using System.Collections.Generic;
+namespace LogCleanClient;
 
+/// <summary>
+/// The configuration class.
+/// </summary>
+[Serializable]
+public class Config
+{
     /// <summary>
-    /// The configuration class.
+    /// Gets or sets the log models.
     /// </summary>
-    [Serializable]
-    public class Config
-    {
-        /// <summary>
-        /// Gets or sets the log models.
-        /// </summary>
-        public List<LogModel> LogModels { get; set; } = new();
-    }
+    public List<LogModel> LogModels { get; set; } = new();
 }
