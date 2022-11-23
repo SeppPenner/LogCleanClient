@@ -118,9 +118,9 @@ public partial class Main : Form
     {
         this.backgroundClean.WorkerReportsProgress = true;
         this.backgroundClean.WorkerSupportsCancellation = true;
-        this.backgroundClean.DoWork += this.BackgroundCleanWork;
-        this.backgroundClean.RunWorkerCompleted += this.BackgroundCleanCompleted;
-        this.backgroundClean.ProgressChanged += this.BackgroundCleanReportProgress;
+        this.backgroundClean.DoWork += this.BackgroundCleanWork!;
+        this.backgroundClean.RunWorkerCompleted += this.BackgroundCleanCompleted!;
+        this.backgroundClean.ProgressChanged += this.BackgroundCleanReportProgress!;
     }
 
     /// <summary>
@@ -237,7 +237,7 @@ public partial class Main : Form
     private void InitializeLanguageManager()
     {
         this.languageManager.SetCurrentLanguage("de-DE");
-        this.languageManager.OnLanguageChanged += this.OnLanguageChanged;
+        this.languageManager.OnLanguageChanged += this.OnLanguageChanged!;
         this.language = this.languageManager.GetCurrentLanguage();
     }
 
