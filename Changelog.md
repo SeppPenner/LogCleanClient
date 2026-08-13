@@ -1,5 +1,6 @@
 # Change history
 
+* **Version 1.0.8.0 (2026-08-13)** : Updated nuget packages, moved to Net 10.0, published the setup content self contained, fixed the file filter that deleted every file on an empty filter entry, fixed the swallowed delete errors, the clear button that stayed disabled after a broken configuration and the progress bar that never reached 100 percent.
 * **Version 1.0.7.0 (2025-01-07)** : Updated Nuget packages, added audit mode, moved to Net9.0.
 * **Version 1.0.6.0 (2024-01-03)** : Updated nuget packages, moved to Net 8.0.
 * **Version 1.0.5.0 (2022-11-23)** : Updated nuget packages, moved to Net 7.0.
