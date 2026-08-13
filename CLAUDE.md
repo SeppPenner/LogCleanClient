@@ -138,8 +138,15 @@ Do not silently "clean up" these, they are existing behaviour:
 - **The installer is tracked although `.gitignore` excludes `*.exe`.** `Setup/LogCleanClient-Setup.exe`
   is in the index and has to be committed with `git add -f`. Every release adds a full copy of the
   installer to the history.
-- **`PrivilegesRequired` is not set, the quick launch icon is dead weight.** The `quicklaunchicon`
-  task is limited to `OnlyBelowVersion: 0,6.1`, so it never applies on a supported Windows.
+- **The Inno Setup script is UTF-8 with BOM.** Inno Setup 6 only reads a script as UTF-8 when a BOM
+  is present, otherwise it falls back to the system code page. Up to version 1.0.7.0 the file was
+  Windows-1252 without a BOM, which happened to work on a machine with that code page and would have
+  produced `HÃ¤mmer Electronics` in the installer everywhere else. Keep the BOM and keep CRLF, and
+  check the bytes after every edit.
+- **The compile warns about `PrivilegesRequired`.** The directive is not in the script, so Inno Setup
+  uses its default `admin`, and that collides with the `{userappdata}` path of the quick launch icon.
+  The `quicklaunchicon` task is limited to `OnlyBelowVersion: 0,6.1`, so it never applies on a
+  supported Windows. Removing those two lines would make the compile warning free.
 - **AppVeyor badge without CI in the repository.** `README.md` links an AppVeyor build that is
   configured outside of this repository.
 - **`src/LogCleanClient.sln.DotSettings`** is tracked and holds nothing but a ReSharper user
