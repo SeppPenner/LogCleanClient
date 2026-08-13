@@ -55,7 +55,7 @@ cd Setup
 call .\build-setup-files.bat
 ```
 
-- Single target framework `net9.0-windows`, no multi-targeting. `RuntimeIdentifiers` is `win-x64`.
+- Single target framework `net10.0-windows`, no multi-targeting. `RuntimeIdentifiers` is `win-x64`.
 - All build properties live directly in `src/LogCleanClient/LogCleanClient.csproj`. There is **no**
   `Directory.Build.props` in this repository.
 - `TreatWarningsAsErrors` is enabled, so every warning breaks the build, NuGet warnings (`NU****`)
