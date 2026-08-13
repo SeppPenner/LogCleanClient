@@ -48,6 +48,7 @@ public partial class Main : Form
         this.InitializeCaption();
         this.InitializeLanguageManager();
         this.LoadLanguagesToCombo();
+        this.InitBackgroundWorker();
         this.LoadConfig();
     }
 
@@ -75,6 +76,27 @@ public partial class Main : Form
     }
 
     /// <summary>
+    /// Gets the file filter options of a <see cref="LogModel"/>.
+    /// </summary>
+    /// <param name="logModel">The log model.</param>
+    /// <returns>The filter options without the empty entries.</returns>
+    private static string[] GetFilterOptions(LogModel logModel)
+    {
+        return logModel.FileFilter.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+    }
+
+    /// <summary>
+    /// Checks whether a file matches one of the filter options.
+    /// </summary>
+    /// <param name="file">The file.</param>
+    /// <param name="filterOptions">The filter options.</param>
+    /// <returns>A value indicating whether the file matches one of the filter options or not.</returns>
+    private static bool MatchesFilter(FileInfo file, string[] filterOptions)
+    {
+        return filterOptions.Any(filterOption => file.FullName.EndsWith(filterOption));
+    }
+
+    /// <summary>
     /// Loads the configuration.
     /// </summary>
     private void LoadConfig()
@@ -83,19 +105,22 @@ public partial class Main : Form
         {
             var location = Assembly.GetExecutingAssembly().Location;
             this.config = ImportConfiguration(Path.Combine(Directory.GetParent(location)?.FullName ?? string.Empty, "Config.xml"));
-            this.InitBackgroundWorker();
         }
         catch (Exception ex)
         {
-            if (this.language is null)
-            {
-                MessageBox.Show(ex.Message, ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            var error = this.language.GetWord("Error");
-            MessageBox.Show(ex.Message, error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            this.ShowError(ex);
         }
+    }
+
+    /// <summary>
+    /// Shows an exception in a message box.
+    /// </summary>
+    /// <param name="ex">The exception.</param>
+    private void ShowError(Exception ex)
+    {
+        var title = this.language?.GetWord("Error") ?? Application.ProductName;
+        var text = $"{ex.Message}{Environment.NewLine}{Environment.NewLine}{ex.StackTrace}";
+        MessageBox.Show(text, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 
     /// <summary>
@@ -132,19 +157,28 @@ public partial class Main : Form
     {
         double totalAmount = 0;
 
-        // Get infos from Directory (how many files are in there?)
+        // Get infos from Directory (how many files in there match the filter?)
         for (var i = this.config.LogModels.Count - 1; i >= 0; i--)
         {
-            if (Directory.Exists(this.config.LogModels[i].LogFolder))
+            var logModel = this.config.LogModels[i];
+
+            if (!Directory.Exists(logModel.LogFolder))
             {
-                var d = new DirectoryInfo(this.config.LogModels[i].LogFolder);
-                this.config.LogModels[i].FileAmount = d.GetFiles().Length;
-                totalAmount += this.config.LogModels[i].FileAmount;
+                this.config.LogModels.RemoveAt(i);
+                continue;
             }
-            else
+
+            var filterOptions = GetFilterOptions(logModel);
+
+            if (filterOptions.Length == 0)
             {
-                this.config.LogModels.Remove(this.config.LogModels[i]);
+                logModel.FileAmount = 0;
+                continue;
             }
+
+            var d = new DirectoryInfo(logModel.LogFolder);
+            logModel.FileAmount = d.GetFiles().Count(file => MatchesFilter(file, filterOptions));
+            totalAmount += logModel.FileAmount;
         }
 
         // Clean log folders
@@ -152,9 +186,10 @@ public partial class Main : Form
 
         foreach (var logModel in this.config.LogModels)
         {
-            var filterOptions = logModel.FileFilter.Split('|');
+            var filterOptions = GetFilterOptions(logModel);
 
-            if (!Directory.Exists(logModel.LogFolder))
+            // A log model without a usable filter entry is skipped, an empty entry would match every file.
+            if (filterOptions.Length == 0 || !Directory.Exists(logModel.LogFolder))
             {
                 continue;
             }
@@ -163,11 +198,17 @@ public partial class Main : Form
 
             foreach (var file in d.GetFiles())
             {
-                if (filterOptions.Any(t => file.FullName.EndsWith(t)))
+                if (!MatchesFilter(file, filterOptions))
                 {
-                    File.Delete(file.FullName);
-                    this.filesDeleted.Add(file.FullName);
-                    fileCount++;
+                    continue;
+                }
+
+                File.Delete(file.FullName);
+                this.filesDeleted.Add(file.FullName);
+                fileCount++;
+
+                if (totalAmount > 0)
+                {
                     this.backgroundClean.ReportProgress(Convert.ToInt32(fileCount / totalAmount * 100));
                 }
             }
@@ -191,13 +232,20 @@ public partial class Main : Form
     /// <param name="e">The event args.</param>
     private void BackgroundCleanCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
+        this.button_ClearLogs.Enabled = true;
+
+        // The background worker swallows every exception of the clean run into the error property.
+        if (e.Error is not null)
+        {
+            this.ShowError(e.Error);
+        }
+
         if (this.language is null)
         {
             return;
         }
 
-        this.button_ClearLogs.Enabled = true;
-        var reportDialog = new ReportDialog();
+        using var reportDialog = new ReportDialog();
         var searchedDirectories = this.language.GetWord("SearchedDirectories");
         reportDialog.AddTextToRichTextBox(searchedDirectories + Environment.NewLine);
         var amount = this.language.GetWord("Amount");

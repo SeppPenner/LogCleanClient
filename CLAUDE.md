@@ -110,6 +110,16 @@ Do not silently "clean up" these, they are existing behaviour:
   entry is compared with `file.FullName.EndsWith(entry)`. With the documented entries (`.log`,
   `.txt`) that behaves like an extension match, but an entry without the leading dot (`log`) would
   also match `catalog`.
+- **An empty filter entry used to delete everything.** `"anything".EndsWith("")` is true, so a
+  `FileFilter` of `.log|` or an empty `FileFilter` deleted every file in the folder. Since version
+  1.0.8.0 the entries are trimmed, empty ones are dropped and a `LogModel` without a single usable
+  entry is skipped instead of cleaned. That is the safe direction, do not turn it back into a
+  wildcard.
+- **A failed delete aborts the run and is reported.** `File.Delete` on a locked log file throws, the
+  `BackgroundWorker` parks that exception in `RunWorkerCompletedEventArgs.Error`. Since version
+  1.0.8.0 `BackgroundCleanCompleted` shows it before the report dialog. Before that the run looked
+  successful although it had stopped at the first locked file. The files deleted up to that point
+  stay deleted.
 - **`Config.xml` is copied with `CopyToOutputDirectory=Always`.** A build overwrites the file in
   `bin`, and the installer overwrites an existing `Config.xml` next to an installed executable, so
   an update throws away the configuration of the user. That is how it has always shipped.
