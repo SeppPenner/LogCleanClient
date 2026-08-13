@@ -72,6 +72,11 @@ call .\build-setup-files.bat
 - There are no tests. A behaviour change is verified by starting the published executable and by
   running a clean against a throwaway folder, never by claiming it works. Never claim a run
   happened without running it.
+- Since version 1.0.8.0 `build-setup-files.bat` publishes **self contained** for `win-x64`, so the
+  target machine needs no installed runtime. That is what turns the installer from roughly 1.8 MB
+  into roughly 35 MB and the publish folder into about 275 files and 118 MB. The check is
+  `LogCleanClient.runtimeconfig.json`: `includedFrameworks` means self contained, `frameworks` means
+  framework dependent.
 - `build-setup-files.bat` does a `cd ..\src` relative to the current directory, so it has to be
   started from the `Setup` folder. In this environment `NoDefaultCurrentDirectoryInExePath` is set,
   which means cmd does not search the current directory, so the call needs the leading `.\`.
