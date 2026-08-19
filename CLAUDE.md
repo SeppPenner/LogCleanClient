@@ -6,7 +6,9 @@ LogCleanClient is a small Windows Forms tool that deletes files from a list of c
 Every folder comes with a file filter, and every file whose name ends with one of the filter entries
 is deleted. After a run a modal report dialog lists the searched folders and every deleted file. The
 repository is an application, it is **not** published as a NuGet package: no `GeneratePackageOnBuild`,
-no push script. It ships as an Inno Setup installer that is committed into the repository.
+no push script. It ships as an Inno Setup installer that is attached to the GitHub release of the
+version tag. Up to and including 1.0.8 the installer was committed into the repository instead,
+which is why the history carries one copy per release.
 
 One solution `src/LogCleanClient.sln` with exactly one project:
 
@@ -140,24 +142,24 @@ Do not silently "clean up" these, they are existing behaviour:
   `Application.ProductName` and `Application.ProductVersion`, so an untagged build shows something
   like `LogCleanClient 1.0.8-1+Branch.master.Sha...`. That is the quickest way to tell which build
   is running.
-- **The installer is tracked although `.gitignore` excludes `*.exe`.** `Setup/LogCleanClient-Setup.exe`
-  is in the index and has to be committed with `git add -f`. Every release adds a full copy of the
-  installer to the history.
+- **The installer is not in the index any more.** `Setup/LogCleanClient-Setup.exe` was committed with
+  `git add -f` against the `*.exe` rule up to and including 1.0.8, so the history carries a full copy
+  per release. It hangs on the GitHub release of its version tag now, do not add it back.
 - **The Inno Setup script is UTF-8 with BOM.** Inno Setup 6 only reads a script as UTF-8 when a BOM
   is present, otherwise it falls back to the system code page. Up to version 1.0.7.0 the file was
   Windows-1252 without a BOM, which happened to work on a machine with that code page and would have
   produced `HÃ¤mmer Electronics` in the installer everywhere else. Keep the BOM and keep CRLF, and
   check the bytes after every edit.
-- **The compile warns about `PrivilegesRequired`.** The directive is not in the script, so Inno Setup
-  uses its default `admin`, and that collides with the `{userappdata}` path of the quick launch icon.
-  The `quicklaunchicon` task is limited to `OnlyBelowVersion: 0,6.1`, so it never applies on a
-  supported Windows. Removing those two lines would make the compile warning free.
+- **The compile is warning free, keep it that way.** `PrivilegesRequired` is not in the script, so
+  Inno Setup uses its default `admin`, which collided with the `{userappdata}` path of the quick
+  launch icon. That task was limited to `OnlyBelowVersion: 0,6.1` and never applied on a supported
+  Windows, so both lines are gone. Do not put a per user path back in.
 - **AppVeyor badge without CI in the repository.** `README.md` links an AppVeyor build that is
   configured outside of this repository.
 - **`src/LogCleanClient.sln.DotSettings`** is tracked and holds nothing but a ReSharper user
   dictionary (`H_00E4mmer`). Leave it alone.
 - **`.gitattributes` sets `* text=auto`**, every rule of the Visual Studio template below it is
-  commented out. The screenshots, the icon and the installer are detected as binary by git itself.
+  commented out. The screenshots and the icon are detected as binary by git itself.
   Any binary file that git could misread needs its own rule.
 
 ## Releasing
@@ -174,13 +176,31 @@ Do not silently "clean up" these, they are existing behaviour:
    compile `Setup/LogCleanClient-Setup.iss` with `ISCC.exe`. The tag has to exist first, otherwise
    GitVersion burns a prerelease version such as `1.0.8-2+Branch.master.Sha...` into the shipped
    executable.
-7. `git add -f Setup/LogCleanClient-Setup.exe`, commit it as `Updated setup.`.
-8. Push the commits and the tag.
+7. Push the commits and the tag.
+8. Attach `Setup/LogCleanClient-Setup.exe` to the GitHub release of that tag. **Never commit the
+   installer.** `Setup/` is the `OutputDir` of the Inno Setup script, so the file lands there during
+   the build and `.gitignore` covers it afterwards.
 
 The version in the `Changelog.md` has four parts (`1.0.8.0`), the tag has three (`1.0.8`).
 GitVersion turns the tag into the assembly version. The history shows the order: tag `1.0.7` sits on
 `6c08b26 "Updated Nuget packages, added audit mode, moved to Net9.0."`, the installer commit
 `c27c2b7 "Updated setup."` comes after it.
+
+For step 8 there is no `gh` on this machine. The GitHub API does the job, with the token that
+`git push` already uses, so nothing has to be stored anywhere:
+
+```bash
+c=$(printf "protocol=https\nhost=github.com\n\n" | git credential fill)
+tok=$(printf "%s" "$c" | grep '^password=' | cut -d= -f2-)
+id=$(curl -s -X POST -H "Authorization: Bearer $tok" \
+  https://api.github.com/repos/SeppPenner/LogCleanClient/releases \
+  -d '{"tag_name":"1.0.9","name":"1.0.9"}' | grep -m1 '"id"' | tr -dc 0-9)
+curl -s -X POST -H "Authorization: Bearer $tok" -H "Content-Type: application/octet-stream" \
+  --data-binary @Setup/LogCleanClient-Setup.exe \
+  "https://uploads.github.com/repos/SeppPenner/LogCleanClient/releases/$id/assets?name=LogCleanClient-Setup.exe"
+```
+
+Never print that token, and never write it into a file.
 
 ## Git
 
